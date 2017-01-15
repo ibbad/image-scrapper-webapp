@@ -1,0 +1,21 @@
+Development Notes
+Design Choices
+1. We can use regex for finding <img> tags in the web page content. However,
+my regex (and available on Internet) for finding the "src" attribute in <img>
+tag miss some cases. BeautifulSoup performed better than regex and gives a
+cleaner look to the code that is why I am using it.
+
+
+Limitations:
+1. The beautiful soup code will only look for <img> tags with both "alt" and
+"src" attributes available.
+
+Implementation details.
+1. In order to save absolute path for respective relative paths (of images) in
+the file, I first used the technique to construct absolute path for the file
+(while manually removing parent director and appending subdirectory of image).
+However, that was a hack and may end up becoming a bug later during the
+lifecycle of script. Hence, I removed it.
+
+url = 'https://www.ndsu.edu/pubweb/~rcollins/313editing/onlineclass/lecturefifteen.htm'    # given url comes here
+url = "http://www.cbssports.com/nba/draft/mock-draft"
