@@ -1,5 +1,5 @@
 """
-Function calls for rest api
+Function calls for rest api of image scrapper application.
 """
 import os
 from flask import jsonify, request, current_app
@@ -28,23 +28,31 @@ def get_url_list():
         return bad_request('No url provided in query string.')
     try:
         urls = get_image_urls_from_webpage(url)
-        # Create repo
-        # Create directory for storage
+        api_logger.info('{count} urls retrieved for image sources in given '
+                        'webpage={url}'.format(count=len(urls), url=url))
         # Create directory for storing files
         create_files_folder(current_app.config['FILES_DIR'],
                             change_to_directory=False)
-        print(get_netloc_from_url(url))
+        api_logger.debug('{dir} created for storing the file containing image '
+                         'urls for webpage={url}'.format(
+                            dir=current_app.config['FILES_DIR'], url=url))
         filename = get_filename(os.path.join(
             current_app.config['FILES_DIR'],
             get_netloc_from_url(url) + '.txt'))
         # Store list of files for later use.
         store_urls_to_file(filename, urls)
+        api_logger.info('Urls for image resources retrieved from webpage='
+                        '{url} successfully stored in '
+                        'file={fname}'.format(url=url, fname=filename))
         return jsonify({
             "status": "success",
             "count": len(urls),
             "url_list": [url for url in urls]
         })
     except Exception as ex:
+        api_logger.error('Unable to retrieve list of urls for image resources '
+                         'from webpage url={url}. '
+                         'Error {err}'.format(err=ex, url=url))
         return internal_server_error(
             message='Unable to retrieve list of urls for image resources from '
                     'webpage url={url}. Error {err}'.format(err=ex, url=url))

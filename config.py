@@ -1,5 +1,5 @@
 """
-Basic configuration for the app
+Basic configuration for the image scrapper web app
 """
 import os
 from helpers.helper_functions import generate_secret_key

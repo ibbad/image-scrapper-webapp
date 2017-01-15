@@ -16,10 +16,10 @@ def install_package(package_name):
     """
     try:
         import pip
-        """
+        '''
         Check if script is not running in virtual environment, the it should
         have root privileges to install the package.
-        """
+        '''
         if not hasattr(sys, 'real_prefix') and os.getuid() != 0:
             logging.warning("Unable to install {pkg} because user is not "
                             "running python in virtual environment, neither "
